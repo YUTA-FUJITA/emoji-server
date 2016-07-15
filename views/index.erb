@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Slackから絵文字一覧URL作成</title>
+  </head>
+  <body class="content">
+    <% if @url.nil? or @url.empty? then %>
+      <p class="subject">Please enter Slack API token.</p>
+      <form name="input" action="/" method="post">
+        <input type="text" size="60" name="token" placeholder="Slack API token">
+        <input type="submit" value="Generate">
+      </form>
+    <% else %>
+      <p class="subject">Generate url.</p>
+      <input type="text" size="60" id="url" value="<%= @url %>">
+      <button class="copy_btn" data-clipboard-action="copy" data-clipboard-target="#url">
+        Copy to clipboard.
+      </button>
+
+      <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+      <script>
+        var clipboard = new Clipboard('.copy_btn');
+        clipboard.on('success', function(e) {
+            console.log(e);
+        });
+        clipboard.on('error', function(e) {
+            console.log(e);
+        });
+      </script>
+    <% end %>
+  </body>
+</html>
