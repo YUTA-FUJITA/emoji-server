@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'open-uri'
 require 'securerandom'
 require 'pathname'
+require 'json'
 
 class App < Sinatra::Base
   DIR = "tmp" # heroku is writeable ./tmp or ./log
@@ -21,9 +22,12 @@ class App < Sinatra::Base
         url = 'https://slack.com/api/emoji.list?token=' + token
         json = open(url).read
         unless json.nil? or json.empty?
-          output << json
-          @url = request.url + "#{DIR}/#{name}"
-          @error = ""
+          parsed = JSON.parse(json)
+          if parsed["ok"]
+            output << json
+            @url = request.url + "#{DIR}/#{name}"
+            @error = ""
+          end
         end
       end
     end
