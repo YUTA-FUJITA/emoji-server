@@ -13,14 +13,19 @@ class App < Sinatra::Base
   end
 
   post '/' do
+    @error = "error get emoji.list."
     token = params[:token]
     unless token.nil? or token.empty?
       name = SecureRandom.uuid
       open(File.join(DIR, name), 'w') do |output|
         url = 'https://slack.com/api/emoji.list?token=' + token
-        output << open(url).read
+        json = open(url).read
+        unless json.nil? or json.empty?
+          output << json
+          @url = request.url + "#{DIR}/#{name}"
+          @error = ""
+        end
       end
-      @url = request.url + "#{DIR}/#{name}"
     end
     erb :index
   end

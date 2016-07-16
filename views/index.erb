@@ -2,9 +2,12 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Slackから絵文字一覧URL作成</title>
+    <title>emoji.list取得代理くん</title>
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
   </head>
   <body class="content">
+    <p id="error"><%= @error %></p>
+
     <% if @url.nil? or @url.empty? then %>
       <p class="subject">Please enter Slack API token.</p>
       <form name="input" action="/" method="post">
